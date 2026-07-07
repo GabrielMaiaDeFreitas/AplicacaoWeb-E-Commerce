@@ -1,9 +1,13 @@
 require "sinatra"
 require "sinatra/reloader" if development?
-
-require_relative "config/database"
+require "sinatra/activerecord"
 
 enable :sessions
+
+set :database, {
+  adapter: "sqlite3",
+  database: "db/development.sqlite3"
+}
 
 get "/" do
   erb :index
