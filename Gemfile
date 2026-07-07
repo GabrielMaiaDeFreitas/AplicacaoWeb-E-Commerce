@@ -11,10 +11,12 @@ gem "bcrypt"
 gem "rackup"
 gem "rake"
 
+
 gem "rspec"
 gem "rack-test"
 gem "database_cleaner-active_record"
 
+gem "irb"
 gem "rubocop"
 gem "pry"
 
