@@ -12,16 +12,5 @@ set :database, {
 Dir["./models/*.rb"].each { |file| require file }
 
 get "/" do
-  usuario = Usuario.new(
-    nome: "",
-    email: "abc",
-    cpf: "",
-    senha_hash: ""
-  )
-
-  if usuario.valid?
-    "Usuário válido!"
-  else
-    usuario.errors.full_messages.join("<br>")
-  end
+  erb :index
 end
