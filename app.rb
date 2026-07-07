@@ -9,6 +9,19 @@ set :database, {
   database: "db/development.sqlite3"
 }
 
+Dir["./models/*.rb"].each { |file| require file }
+
 get "/" do
-  erb :index
+  usuario = Usuario.new(
+    nome: "",
+    email: "abc",
+    cpf: "",
+    senha_hash: ""
+  )
+
+  if usuario.valid?
+    "Usuário válido!"
+  else
+    usuario.errors.full_messages.join("<br>")
+  end
 end
