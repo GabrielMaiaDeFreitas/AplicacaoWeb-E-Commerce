@@ -1,0 +1,19 @@
+# Banco SQLite
+db/*.sqlite3
+
+# Bundler
+.bundle/
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Testes
+spec/tmp/
+
+# Editor
+.vscode/
+.idea/
