@@ -34,15 +34,16 @@ post "/usuarios" do
   )
 
   if @usuario.save
+    session[:sucesso] = "Usuário cadastrado com sucesso!"
+
     redirect "/"
   else
     erb :"usuarios/new"
   end
 
-
-
-
 end
+
+
 
 # ==========================
 # Lista de usuários
