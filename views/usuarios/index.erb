@@ -1,0 +1,42 @@
+<h2>Usuários Cadastrados</h2>
+
+<p>
+    <a href="/usuarios/new">Novo Usuário</a>
+</p>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Telefone</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <% @usuarios.each do |usuario| %>
+
+            <tr>
+
+                <td><%= usuario.nome %></td>
+
+                <td><%= usuario.email %></td>
+
+                <td><%= usuario.cpf %></td>
+
+                <td><%= usuario.telefone %></td>
+
+            </tr>
+
+        <% end %>
+
+    </tbody>
+
+</table>

@@ -38,4 +38,17 @@ post "/usuarios" do
   else
     erb :"usuarios/new"
   end
+
+
+
+
+end
+
+# ==========================
+# Lista de usuários
+# ==========================
+
+get "/usuarios" do
+  @usuarios = Usuario.all
+  erb :"usuarios/index"
 end
