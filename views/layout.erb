@@ -23,10 +23,23 @@
 
         |
 
-        <a href="/usuarios/new">Cadastrar</a>
+        <% if logado? %>
 
-        |
-        <a href="#">Login</a>
+            <a href="#">Meu Perfil</a>
+
+            |
+
+            <a href="/logout">Sair</a>
+
+        <% else %>
+
+            <a href="/usuarios/new">Cadastrar</a>
+
+            |
+
+            <a href="/login">Login</a>
+
+        <% end %>
 
     </nav>
 
