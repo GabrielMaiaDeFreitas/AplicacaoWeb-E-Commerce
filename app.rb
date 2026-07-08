@@ -268,3 +268,20 @@ post "/produtos/:id/delete" do
   redirect "/produtos"
 
 end
+
+
+
+
+# ==========================
+# Catálogo
+# ==========================
+
+get "/catalogo" do
+
+  redirect "/login" unless logado?
+
+  @produtos = Produto.all
+
+  erb :"produtos/catalogo"
+
+end

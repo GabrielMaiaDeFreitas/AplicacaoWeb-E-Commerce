@@ -1,0 +1,54 @@
+<h2>Catálogo de Produtos</h2>
+
+<% if @produtos.empty? %>
+
+    <p>Nenhum produto disponível.</p>
+
+<% else %>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th></th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    <% @produtos.each do |produto| %>
+
+        <tr>
+
+            <td><%= produto.nome %></td>
+
+            <td>R$ <%= format("%.2f", produto.preco) %></td>
+
+            <td><%= produto.estoque %></td>
+
+            <td>
+
+                <a href="/catalogo/<%= produto.id %>">
+
+                    Ver detalhes
+
+                </a>
+
+            </td>
+
+        </tr>
+
+    <% end %>
+
+    </tbody>
+
+</table>
+
+<% end %>
