@@ -191,3 +191,55 @@ get "/produtos" do
   erb :"produtos/index"
 
 end
+
+get "/produtos/:id/edit" do
+
+  redirect "/login" unless logado?
+
+  @produto = Produto.find_by(
+    id: params[:id],
+    vendedor_id: usuario_logado.id
+  )
+
+  if @produto.nil?
+    session[:erro] = "Produto não encontrado."
+
+    redirect "/produtos"
+  end
+
+  erb :"produtos/edit"
+
+end
+
+post "/produtos/:id" do
+
+  redirect "/login" unless logado?
+
+  @produto = Produto.find_by(
+    id: params[:id],
+    vendedor_id: usuario_logado.id
+  )
+
+  if @produto.nil?
+    session[:erro] = "Produto não encontrado."
+
+    redirect "/produtos"
+  end
+
+  if @produto.update(
+      nome: params[:nome],
+      preco: params[:preco],
+      estoque: params[:estoque]
+    )
+
+    session[:sucesso] = "Produto atualizado com sucesso."
+
+    redirect "/produtos"
+
+  else
+
+    erb :"produtos/edit"
+
+  end
+
+end

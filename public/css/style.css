@@ -98,3 +98,13 @@ tr:nth-child(even){
     color:#721c24;
     border:1px solid #f5c6cb;
 }
+
+a,
+a:visited{
+    color:#0066cc;
+    text-decoration:none;
+}
+
+a:hover{
+    text-decoration:underline;
+}

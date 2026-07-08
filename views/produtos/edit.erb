@@ -1,0 +1,51 @@
+<h2>Editar Produto</h2>
+
+<% if @produto.errors.any? %>
+
+<div class="erros">
+
+<ul>
+
+<% @produto.errors.full_messages.each do |erro| %>
+
+<li><%= erro %></li>
+
+<% end %>
+
+</ul>
+
+</div>
+
+<% end %>
+
+<form action="/produtos/<%= @produto.id %>" method="post">
+
+<label>Nome</label><br>
+<input
+type="text"
+name="nome"
+value="<%= @produto.nome %>"
+><br><br>
+
+<label>Preço</label><br>
+<input
+type="number"
+step="0.01"
+name="preco"
+value="<%= @produto.preco %>"
+><br><br>
+
+<label>Estoque</label><br>
+<input
+type="number"
+name="estoque"
+value="<%= @produto.estoque %>"
+><br><br>
+
+<button type="submit">
+
+Salvar Alterações
+
+</button>
+
+</form>
