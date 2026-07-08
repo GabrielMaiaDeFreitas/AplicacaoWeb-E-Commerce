@@ -41,7 +41,20 @@
 
                 |
 
-                <a href="#">Excluir</a>
+                <form
+                    class="inline"
+                    action="/produtos/<%= produto.id %>/delete"
+                    method="post">
+
+                    <button
+                        type="submit"
+                        onclick="return confirm('Deseja realmente excluir este produto?')">
+
+                        Excluir
+
+                    </button>
+
+                </form>
 
             </td>
 

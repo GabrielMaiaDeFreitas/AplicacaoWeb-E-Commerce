@@ -99,12 +99,27 @@ tr:nth-child(even){
     border:1px solid #f5c6cb;
 }
 
-a,
-a:visited{
-    color:#0066cc;
-    text-decoration:none;
+table a,
+table a:visited{
+    color:#1e40af;
+    text-decoration:underline;
 }
 
-a:hover{
+table a:hover{
+    color:#163172;
+}
+
+form.inline{
+    display:inline;
+}
+
+form.inline button{
+    background:none;
+    border:none;
+    color:#1e40af;
     text-decoration:underline;
+    cursor:pointer;
+    font-size:inherit;
+    font-family: inherit;
+    padding:0;
 }

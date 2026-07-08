@@ -243,3 +243,28 @@ post "/produtos/:id" do
   end
 
 end
+
+post "/produtos/:id/delete" do
+
+  redirect "/login" unless logado?
+
+  @produto = Produto.find_by(
+    id: params[:id],
+    vendedor_id: usuario_logado.id
+  )
+
+  if @produto.nil?
+
+    session[:erro] = "Produto não encontrado."
+
+    redirect "/produtos"
+
+  end
+
+  @produto.destroy
+
+  session[:sucesso] = "Produto excluído com sucesso."
+
+  redirect "/produtos"
+
+end
