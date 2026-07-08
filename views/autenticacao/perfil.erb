@@ -1,0 +1,63 @@
+<h2>Meu Perfil</h2>
+
+<% if @usuario.errors.any? %>
+
+<div class="erros">
+
+    <ul>
+
+        <% @usuario.errors.full_messages.each do |erro| %>
+
+            <li><%= erro %></li>
+
+        <% end %>
+
+    </ul>
+
+</div>
+
+<% end %>
+
+<form action="/perfil" method="post">
+
+    <label>Nome</label><br>
+    <input
+        type="text"
+        name="nome"
+        value="<%= @usuario.nome %>"
+    ><br><br>
+
+    <label>Email</label><br>
+    <input
+        type="email"
+        name="email"
+        value="<%= @usuario.email %>"
+    ><br><br>
+
+    <label>Senha</label><br>
+    <input
+        type="password"
+        name="senha"
+    ><br><br>
+
+    <label>CPF</label><br>
+    <input
+        type="text"
+        name="cpf"
+        value="<%= @usuario.cpf %>"
+    ><br><br>
+
+    <label>Telefone</label><br>
+    <input
+        type="text"
+        name="telefone"
+        value="<%= @usuario.telefone %>"
+    ><br><br>
+
+    <button type="submit">
+
+        Salvar Alterações
+
+    </button>
+
+</form>

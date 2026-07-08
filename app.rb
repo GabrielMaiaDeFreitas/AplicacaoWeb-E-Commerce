@@ -98,3 +98,44 @@ get "/logout" do
   redirect "/"
 
 end
+
+
+# ==========================
+# Perfil
+# ==========================
+
+get "/perfil" do
+
+  redirect "/login" unless logado?
+
+  @usuario = usuario_logado
+
+  erb :"autenticacao/perfil"
+
+end
+
+post "/perfil" do
+
+  redirect "/login" unless logado?
+
+  @usuario = usuario_logado
+
+  if @usuario.update(
+      nome: params[:nome],
+      email: params[:email],
+      senha_hash: params[:senha],
+      cpf: params[:cpf],
+      telefone: params[:telefone]
+    )
+
+    session[:sucesso] = "Perfil atualizado com sucesso."
+
+    redirect "/"
+
+  else
+
+    erb :"autenticacao/perfil"
+
+  end
+
+end
