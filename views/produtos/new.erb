@@ -1,0 +1,49 @@
+<h2>Novo Produto</h2>
+
+<% if @produto.errors.any? %>
+
+<div class="erros">
+
+    <ul>
+
+        <% @produto.errors.full_messages.each do |erro| %>
+
+            <li><%= erro %></li>
+
+        <% end %>
+
+    </ul>
+
+</div>
+
+<% end %>
+
+<form action="/produtos" method="post">
+
+    <label>Nome</label><br>
+    <input
+        type="text"
+        name="nome"
+        value="<%= @produto.nome %>"
+    ><br><br>
+
+    <label>Preço</label><br>
+    <input
+        type="number"
+        name="preco"
+        step="0.01"
+        value="<%= @produto.preco %>"
+    ><br><br>
+
+    <label>Estoque</label><br>
+    <input
+        type="number"
+        name="estoque"
+        value="<%= @produto.estoque %>"
+    ><br><br>
+
+    <button type="submit">
+        Cadastrar Produto
+    </button>
+
+</form>

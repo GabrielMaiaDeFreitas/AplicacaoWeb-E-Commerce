@@ -139,3 +139,55 @@ post "/perfil" do
   end
 
 end
+
+
+
+# ==========================
+# Produtos
+# ==========================
+
+get "/produtos/new" do
+
+  redirect "/login" unless logado?
+
+  @produto = Produto.new
+
+  erb :"produtos/new"
+
+end
+
+post "/produtos" do
+
+  redirect "/login" unless logado?
+
+  @produto = Produto.new(
+    nome: params[:nome],
+    preco: params[:preco],
+    estoque: params[:estoque]
+  )
+
+  @produto.vendedor = usuario_logado
+
+  if @produto.save
+
+    session[:sucesso] = "Produto cadastrado com sucesso."
+
+    redirect "/produtos"
+
+  else
+
+    erb :"produtos/new"
+
+  end
+
+end
+
+get "/produtos" do
+
+  redirect "/login" unless logado?
+
+  @produtos = Produto.where(vendedor_id: usuario_logado.id)
+
+  erb :"produtos/index"
+
+end

@@ -1,0 +1,56 @@
+<h2>Meus Produtos</h2>
+
+<p>
+    <a href="/produtos/new">Novo Produto</a>
+</p>
+
+<% if @produtos.empty? %>
+
+    <p>Você ainda não cadastrou nenhum produto.</p>
+
+<% else %>
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th>Ações</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    <% @produtos.each do |produto| %>
+
+        <tr>
+
+            <td><%= produto.nome %></td>
+
+            <td>R$ <%= format("%.2f", produto.preco) %></td>
+
+            <td><%= produto.estoque %></td>
+
+            <td>
+
+                <a href="#">Editar</a>
+
+                |
+
+                <a href="#">Excluir</a>
+
+            </td>
+
+        </tr>
+
+    <% end %>
+
+    </tbody>
+
+</table>
+
+<% end %>
