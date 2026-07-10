@@ -97,7 +97,7 @@
 
 <% if @compra.status == "pendente" %>
 
-<form class="inline"action="#" method="post">
+<form class="inline" action="/compras/<%= @compra.id %>/cancelar" method="post">
 
     <button type="submit">
 

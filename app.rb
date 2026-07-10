@@ -527,3 +527,64 @@ get "/compras/:id" do
   erb :"compras/show"
 
 end
+
+post "/compras/:id/cancelar" do
+
+  redirect "/login" unless logado?
+
+  compra = Venda.find_by(
+    id: params[:id],
+    comprador_id: usuario_logado.id
+  )
+
+  if compra.nil?
+
+    session[:erro] = "Compra não encontrada."
+
+    redirect "/compras"
+
+  end
+
+  if compra.status != "pendente"
+
+    session[:erro] = "Somente compras pendentes podem ser canceladas."
+
+    redirect "/compras/#{compra.id}"
+
+  end
+
+  begin
+
+    ActiveRecord::Base.transaction do
+
+      compra.item_vendas.each do |item|
+
+        produto = item.produto
+
+        produto.update!(
+
+          estoque: produto.estoque + item.quantidade
+
+        )
+
+      end
+
+      compra.update!(
+
+        status: "cancelada"
+
+      )
+
+    end
+
+    session[:sucesso] = "Compra cancelada com sucesso."
+
+  rescue => e
+
+    session[:erro] = e.message
+
+  end
+
+  redirect "/compras/#{compra.id}"
+
+end
