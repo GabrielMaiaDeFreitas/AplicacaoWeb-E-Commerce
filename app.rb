@@ -346,3 +346,32 @@ post "/carrinho/adicionar/:id" do
   redirect "/catalogo/#{produto.id}"
 
 end
+
+get "/carrinho" do
+
+  redirect "/login" unless logado?
+
+  @itens = []
+  @total = 0
+
+  (session[:carrinho] || {}).each do |produto_id, quantidade|
+
+    produto = Produto.find_by(id: produto_id)
+
+    next unless produto
+
+    subtotal = produto.preco * quantidade
+
+    @itens << {
+      produto: produto,
+      quantidade: quantidade,
+      subtotal: subtotal
+    }
+
+    @total += subtotal
+
+  end
+
+  erb :"carrinho/index"
+
+end
