@@ -1,33 +1,29 @@
-require_relative "../spec_helper"
-require "bcrypt"
+require_relative '../spec_helper'
+require 'bcrypt'
 
 RSpec.describe Produto do
-
   let(:vendedor) do
     Usuario.create!(
-      nome: "Gabriel",
-      email: "gabriel@email.com",
-      senha_hash: BCrypt::Password.create("123456"),
-      cpf: "12345678900"
+      nome: 'Gabriel',
+      email: 'gabriel@email.com',
+      senha_hash: BCrypt::Password.create('123456'),
+      cpf: '12345678900'
     )
   end
 
-  it "cria um produto válido" do
-
+  it 'cria um produto válido' do
     produto = Produto.new(
-      nome: "Mouse",
-      descricao: "Mouse Gamer",
+      nome: 'Mouse',
+      descricao: 'Mouse Gamer',
       preco: 100,
       estoque: 10,
       vendedor: vendedor
     )
 
     expect(produto.valid?).to be true
-
   end
 
-  it "exige nome" do
-
+  it 'exige nome' do
     produto = Produto.new(
       preco: 100,
       estoque: 10,
@@ -35,57 +31,47 @@ RSpec.describe Produto do
     )
 
     expect(produto.valid?).to be false
-
   end
 
-  it "exige preço" do
-
+  it 'exige preço' do
     produto = Produto.new(
-      nome: "Mouse",
+      nome: 'Mouse',
       estoque: 10,
       vendedor: vendedor
     )
 
     expect(produto.valid?).to be false
-
   end
 
-  it "não aceita preço menor ou igual a zero" do
-
+  it 'não aceita preço menor ou igual a zero' do
     produto = Produto.new(
-      nome: "Mouse",
+      nome: 'Mouse',
       preco: 0,
       estoque: 10,
       vendedor: vendedor
     )
 
     expect(produto.valid?).to be false
-
   end
 
-  it "exige estoque" do
-
+  it 'exige estoque' do
     produto = Produto.new(
-      nome: "Mouse",
+      nome: 'Mouse',
       preco: 100,
       vendedor: vendedor
     )
 
     expect(produto.valid?).to be false
-
   end
 
-  it "não aceita estoque negativo" do
-
+  it 'não aceita estoque negativo' do
     produto = Produto.new(
-      nome: "Mouse",
+      nome: 'Mouse',
       preco: 100,
       estoque: -1,
       vendedor: vendedor
     )
 
     expect(produto.valid?).to be false
-
   end
-
 end

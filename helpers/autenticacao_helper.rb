@@ -1,5 +1,4 @@
 module AutenticacaoHelper
-
   def usuario_logado
     return nil unless session[:usuario_id]
 
@@ -9,5 +8,4 @@ module AutenticacaoHelper
   def logado?
     !usuario_logado.nil?
   end
-
 end

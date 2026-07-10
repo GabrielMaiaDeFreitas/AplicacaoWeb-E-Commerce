@@ -1,24 +1,23 @@
 # frozen_string_literal: true
-source "https://rubygems.org"
 
-gem "sinatra"
-gem "puma"
-gem "sinatra-contrib"
-gem "activerecord"
-gem "sinatra-activerecord"
-gem "sqlite3"
-gem "bcrypt"
-gem "rackup"
-gem "rake"
+source 'https://rubygems.org'
 
+gem 'activerecord'
+gem 'bcrypt'
+gem 'puma'
+gem 'rackup'
+gem 'rake'
+gem 'sinatra'
+gem 'sinatra-activerecord'
+gem 'sinatra-contrib'
+gem 'sqlite3'
 
-gem "rspec"
-gem "rack-test"
-gem "database_cleaner-active_record"
+gem 'database_cleaner-active_record'
+gem 'rack-test'
+gem 'rspec'
 
-gem "irb"
-gem "rubocop"
-gem "pry"
-
+gem 'irb'
+gem 'pry'
+gem 'rubocop'
 
 # gem "rails"

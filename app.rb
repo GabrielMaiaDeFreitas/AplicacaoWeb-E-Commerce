@@ -1,21 +1,21 @@
-require "sinatra"
-require "sinatra/reloader" if development?
-require "sinatra/activerecord"
-require "bcrypt"
+require 'sinatra'
+require 'sinatra/reloader' if development?
+require 'sinatra/activerecord'
+require 'bcrypt'
 
 enable :sessions
 
 set :database, {
-  adapter: "sqlite3",
+  adapter: 'sqlite3',
   database: "db/#{ENV['RACK_ENV'] || 'development'}.sqlite3"
 }
 
-Dir["./models/*.rb"].each { |file| require file }
-require_relative "helpers/autenticacao_helper"
+Dir['./models/*.rb'].each { |file| require file }
+require_relative 'helpers/autenticacao_helper'
 
 helpers AutenticacaoHelper
 
-get "/" do
+get '/' do
   erb :index
 end
 
@@ -23,12 +23,12 @@ end
 # Cadastro de usuários
 # ==========================
 
-get "/usuarios/new" do
+get '/usuarios/new' do
   @usuario = Usuario.new
   erb :"usuarios/new"
 end
 
-post "/usuarios" do
+post '/usuarios' do
   @usuario = Usuario.new(
     nome: params[:nome],
     email: params[:email],
@@ -38,13 +38,12 @@ post "/usuarios" do
   )
 
   if @usuario.save
-    session[:sucesso] = "Usuário cadastrado com sucesso!"
+    session[:sucesso] = 'Usuário cadastrado com sucesso!'
 
-    redirect "/"
+    redirect '/'
   else
     erb :"usuarios/new"
   end
-
 end
 
 
@@ -53,7 +52,7 @@ end
 # Lista de usuários
 # ==========================
 
-get "/usuarios" do
+get '/usuarios' do
   @usuarios = Usuario.all
   erb :"usuarios/index"
 end
@@ -64,40 +63,36 @@ end
 # Login
 # ==========================
 
-get "/login" do
+get '/login' do
   erb :"autenticacao/login"
 end
 
-post "/login" do
-
+post '/login' do
   usuario = Usuario.find_by(email: params[:email])
 
-  if usuario &&  BCrypt::Password.new(usuario.senha_hash) == params[:senha]
+  if usuario && BCrypt::Password.new(usuario.senha_hash) == params[:senha]
 
     session[:usuario_id] = usuario.id
 
-    session[:sucesso] = "Login realizado com sucesso!"
+    session[:sucesso] = 'Login realizado com sucesso!'
 
-    redirect "/"
+    redirect '/'
 
   else
 
-    session[:erro] = "Email ou senha inválidos."
+    session[:erro] = 'Email ou senha inválidos.'
 
-    redirect "/login"
+    redirect '/login'
 
   end
-
 end
 
-get "/logout" do
-
+get '/logout' do
   session.clear
 
-  session[:sucesso] = "Logout realizado com sucesso."
+  session[:sucesso] = 'Logout realizado com sucesso.'
 
-  redirect "/"
-
+  redirect '/'
 end
 
 
@@ -105,40 +100,36 @@ end
 # Perfil
 # ==========================
 
-get "/perfil" do
-
-  redirect "/login" unless logado?
+get '/perfil' do
+  redirect '/login' unless logado?
 
   @usuario = usuario_logado
 
   erb :"autenticacao/perfil"
-
 end
 
-post "/perfil" do
-
-  redirect "/login" unless logado?
+post '/perfil' do
+  redirect '/login' unless logado?
 
   @usuario = usuario_logado
 
   if @usuario.update(
-      nome: params[:nome],
-      email: params[:email],
-      senha_hash: params[:senha],
-      cpf: params[:cpf],
-      telefone: params[:telefone]
-    )
+    nome: params[:nome],
+    email: params[:email],
+    senha_hash: params[:senha],
+    cpf: params[:cpf],
+    telefone: params[:telefone]
+  )
 
-    session[:sucesso] = "Perfil atualizado com sucesso."
+    session[:sucesso] = 'Perfil atualizado com sucesso.'
 
-    redirect "/"
+    redirect '/'
 
   else
 
     erb :"autenticacao/perfil"
 
   end
-
 end
 
 
@@ -147,19 +138,16 @@ end
 # Produtos
 # ==========================
 
-get "/produtos/new" do
-
-  redirect "/login" unless logado?
+get '/produtos/new' do
+  redirect '/login' unless logado?
 
   @produto = Produto.new
 
   erb :"produtos/new"
-
 end
 
-post "/produtos" do
-
-  redirect "/login" unless logado?
+post '/produtos' do
+  redirect '/login' unless logado?
 
   @produto = Produto.new(
     nome: params[:nome],
@@ -172,31 +160,27 @@ post "/produtos" do
 
   if @produto.save
 
-    session[:sucesso] = "Produto cadastrado com sucesso."
+    session[:sucesso] = 'Produto cadastrado com sucesso.'
 
-    redirect "/produtos"
+    redirect '/produtos'
 
   else
 
     erb :"produtos/new"
 
   end
-
 end
 
-get "/produtos" do
-
-  redirect "/login" unless logado?
+get '/produtos' do
+  redirect '/login' unless logado?
 
   @produtos = Produto.where(vendedor_id: usuario_logado.id)
 
   erb :"produtos/index"
-
 end
 
-get "/produtos/:id/edit" do
-
-  redirect "/login" unless logado?
+get '/produtos/:id/edit' do
+  redirect '/login' unless logado?
 
   @produto = Produto.find_by(
     id: params[:id],
@@ -204,18 +188,16 @@ get "/produtos/:id/edit" do
   )
 
   if @produto.nil?
-    session[:erro] = "Produto não encontrado."
+    session[:erro] = 'Produto não encontrado.'
 
-    redirect "/produtos"
+    redirect '/produtos'
   end
 
   erb :"produtos/edit"
-
 end
 
-post "/produtos/:id" do
-
-  redirect "/login" unless logado?
+post '/produtos/:id' do
+  redirect '/login' unless logado?
 
   @produto = Produto.find_by(
     id: params[:id],
@@ -223,33 +205,31 @@ post "/produtos/:id" do
   )
 
   if @produto.nil?
-    session[:erro] = "Produto não encontrado."
+    session[:erro] = 'Produto não encontrado.'
 
-    redirect "/produtos"
+    redirect '/produtos'
   end
 
   if @produto.update(
-      nome: params[:nome],
-      descricao: params[:descricao],
-      preco: params[:preco],
-      estoque: params[:estoque]
-    )
+    nome: params[:nome],
+    descricao: params[:descricao],
+    preco: params[:preco],
+    estoque: params[:estoque]
+  )
 
-    session[:sucesso] = "Produto atualizado com sucesso."
+    session[:sucesso] = 'Produto atualizado com sucesso.'
 
-    redirect "/produtos"
+    redirect '/produtos'
 
   else
 
     erb :"produtos/edit"
 
   end
-
 end
 
-post "/produtos/:id/delete" do
-
-  redirect "/login" unless logado?
+post '/produtos/:id/delete' do
+  redirect '/login' unless logado?
 
   @produto = Produto.find_by(
     id: params[:id],
@@ -258,18 +238,17 @@ post "/produtos/:id/delete" do
 
   if @produto.nil?
 
-    session[:erro] = "Produto não encontrado."
+    session[:erro] = 'Produto não encontrado.'
 
-    redirect "/produtos"
+    redirect '/produtos'
 
   end
 
   @produto.destroy
 
-  session[:sucesso] = "Produto excluído com sucesso."
+  session[:sucesso] = 'Produto excluído com sucesso.'
 
-  redirect "/produtos"
-
+  redirect '/produtos'
 end
 
 
@@ -279,32 +258,28 @@ end
 # Catálogo
 # ==========================
 
-get "/catalogo" do
-
-  redirect "/login" unless logado?
+get '/catalogo' do
+  redirect '/login' unless logado?
 
   @produtos = Produto.all
 
   erb :"produtos/catalogo"
-
 end
 
-get "/catalogo/:id" do
-
-  redirect "/login" unless logado?
+get '/catalogo/:id' do
+  redirect '/login' unless logado?
 
   @produto = Produto.find_by(id: params[:id])
 
   if @produto.nil?
 
-    session[:erro] = "Produto não encontrado."
+    session[:erro] = 'Produto não encontrado.'
 
-    redirect "/catalogo"
+    redirect '/catalogo'
 
   end
 
   erb :"produtos/show"
-
 end
 
 
@@ -314,17 +289,16 @@ end
 # Carrinho
 # ==========================
 
-post "/carrinho/adicionar/:id" do
-
-  redirect "/login" unless logado?
+post '/carrinho/adicionar/:id' do
+  redirect '/login' unless logado?
 
   produto = Produto.find_by(id: params[:id])
 
   if produto.nil?
 
-    session[:erro] = "Produto não encontrado."
+    session[:erro] = 'Produto não encontrado.'
 
-    redirect "/catalogo"
+    redirect '/catalogo'
 
   end
 
@@ -332,21 +306,21 @@ post "/carrinho/adicionar/:id" do
 
   unless session[:carrinho].empty?
 
-  primeiro_produto = Produto.find_by(
-    id: session[:carrinho].keys.first
-  )
+    primeiro_produto = Produto.find_by(
+      id: session[:carrinho].keys.first
+    )
 
-  if primeiro_produto &&
-     primeiro_produto.vendedor_id != produto.vendedor_id
+    if primeiro_produto &&
+       primeiro_produto.vendedor_id != produto.vendedor_id
 
-    session[:erro] =
-      "O carrinho aceita apenas produtos do mesmo vendedor."
+      session[:erro] =
+        'O carrinho aceita apenas produtos do mesmo vendedor.'
 
-    redirect "/catalogo/#{produto.id}"
+      redirect "/catalogo/#{produto.id}"
+
+    end
 
   end
-
-end
 
   id = produto.id.to_s
 
@@ -360,21 +334,18 @@ end
 
   end
 
-  session[:sucesso] = "Produto adicionado ao carrinho."
+  session[:sucesso] = 'Produto adicionado ao carrinho.'
 
   redirect "/catalogo/#{produto.id}"
-
 end
 
-get "/carrinho" do
-
-  redirect "/login" unless logado?
+get '/carrinho' do
+  redirect '/login' unless logado?
 
   @itens = []
   @total = 0
 
   (session[:carrinho] || {}).each do |produto_id, quantidade|
-
     produto = Produto.find_by(id: produto_id)
 
     next unless produto
@@ -388,22 +359,19 @@ get "/carrinho" do
     }
 
     @total += subtotal
-
   end
 
   erb :"carrinho/index"
-
 end
 
-post "/compras/finalizar" do
-
-  redirect "/login" unless logado?
+post '/compras/finalizar' do
+  redirect '/login' unless logado?
 
   if session[:carrinho].nil? || session[:carrinho].empty?
 
-    session[:erro] = "Seu carrinho está vazio."
+    session[:erro] = 'Seu carrinho está vazio.'
 
-    redirect "/carrinho"
+    redirect '/carrinho'
 
   end
 
@@ -412,39 +380,29 @@ post "/compras/finalizar" do
   )
 
   begin
-
     ActiveRecord::Base.transaction do
-
       venda = Venda.create!(
-
         comprador: usuario_logado,
 
         vendedor: primeiro_produto.vendedor,
 
         data: Date.today,
 
-        status: "pendente",
+        status: 'pendente',
 
         valor_total: 0
-
       )
 
       total = 0
 
       session[:carrinho].each do |produto_id, quantidade|
-
         produto = Produto.find_by(id: produto_id)
 
-        raise "Produto não encontrado." if produto.nil?
+        raise 'Produto não encontrado.' if produto.nil?
 
-        if produto.estoque < quantidade
-
-          raise "Estoque insuficiente para o produto '#{produto.nome}'."
-
-        end
+        raise "Estoque insuficiente para o produto '#{produto.nome}'." if produto.estoque < quantidade
 
         ItemVenda.create!(
-
           venda: venda,
 
           produto: produto,
@@ -452,41 +410,30 @@ post "/compras/finalizar" do
           quantidade: quantidade,
 
           preco_unitario: produto.preco
-
         )
 
         produto.update!(
-
           estoque: produto.estoque - quantidade
-
         )
 
         total += produto.preco * quantidade
-
       end
 
       venda.update!(
-
         valor_total: total
-
       )
-
     end
 
     session.delete(:carrinho)
 
-    session[:sucesso] = "Compra realizada com sucesso."
+    session[:sucesso] = 'Compra realizada com sucesso.'
 
-    redirect "/catalogo"
-
-  rescue => e
-
+    redirect '/catalogo'
+  rescue StandardError => e
     session[:erro] = e.message
 
-    redirect "/carrinho"
-
+    redirect '/carrinho'
   end
-
 end
 
 
@@ -496,21 +443,18 @@ end
 # Compras
 # ==========================
 
-get "/compras" do
-
-  redirect "/login" unless logado?
+get '/compras' do
+  redirect '/login' unless logado?
 
   @compras = Venda.where(
     comprador_id: usuario_logado.id
   ).order(data: :desc)
 
   erb :"compras/index"
-
 end
 
-get "/compras/:id" do
-
-  redirect "/login" unless logado?
+get '/compras/:id' do
+  redirect '/login' unless logado?
 
   @compra = Venda.find_by(
     id: params[:id],
@@ -519,19 +463,17 @@ get "/compras/:id" do
 
   if @compra.nil?
 
-    session[:erro] = "Compra não encontrada."
+    session[:erro] = 'Compra não encontrada.'
 
-    redirect "/compras"
+    redirect '/compras'
 
   end
 
   erb :"compras/show"
-
 end
 
-post "/compras/:id/cancelar" do
-
-  redirect "/login" unless logado?
+post '/compras/:id/cancelar' do
+  redirect '/login' unless logado?
 
   compra = Venda.find_by(
     id: params[:id],
@@ -540,54 +482,41 @@ post "/compras/:id/cancelar" do
 
   if compra.nil?
 
-    session[:erro] = "Compra não encontrada."
+    session[:erro] = 'Compra não encontrada.'
 
-    redirect "/compras"
+    redirect '/compras'
 
   end
 
-  if compra.status != "pendente"
+  if compra.status != 'pendente'
 
-    session[:erro] = "Somente compras pendentes podem ser canceladas."
+    session[:erro] = 'Somente compras pendentes podem ser canceladas.'
 
     redirect "/compras/#{compra.id}"
 
   end
 
   begin
-
     ActiveRecord::Base.transaction do
-
       compra.item_vendas.each do |item|
-
         produto = item.produto
 
         produto.update!(
-
           estoque: produto.estoque + item.quantidade
-
         )
-
       end
 
       compra.update!(
-
-        status: "cancelada"
-
+        status: 'cancelada'
       )
-
     end
 
-    session[:sucesso] = "Compra cancelada com sucesso."
-
-  rescue => e
-
+    session[:sucesso] = 'Compra cancelada com sucesso.'
+  rescue StandardError => e
     session[:erro] = e.message
-
   end
 
   redirect "/compras/#{compra.id}"
-
 end
 
 
@@ -597,21 +526,18 @@ end
 # Vendas
 # ==========================
 
-get "/vendas" do
-
-  redirect "/login" unless logado?
+get '/vendas' do
+  redirect '/login' unless logado?
 
   @vendas = Venda.where(
     vendedor_id: usuario_logado.id
   ).order(data: :desc)
 
   erb :"vendas/index"
-
 end
 
-get "/vendas/:id" do
-
-  redirect "/login" unless logado?
+get '/vendas/:id' do
+  redirect '/login' unless logado?
 
   @venda = Venda.find_by(
     id: params[:id],
@@ -620,19 +546,17 @@ get "/vendas/:id" do
 
   if @venda.nil?
 
-    session[:erro] = "Venda não encontrada."
+    session[:erro] = 'Venda não encontrada.'
 
-    redirect "/vendas"
+    redirect '/vendas'
 
   end
 
   erb :"vendas/show"
-
 end
 
-post "/vendas/:id/status" do
-
-  redirect "/login" unless logado?
+post '/vendas/:id/status' do
+  redirect '/login' unless logado?
 
   venda = Venda.find_by(
     id: params[:id],
@@ -641,44 +565,38 @@ post "/vendas/:id/status" do
 
   if venda.nil?
 
-    session[:erro] = "Venda não encontrada."
+    session[:erro] = 'Venda não encontrada.'
 
-    redirect "/vendas"
+    redirect '/vendas'
 
   end
 
   novo_status = case venda.status
 
-                when "pendente"
-                  "paga"
+                when 'pendente'
+                  'paga'
 
-                when "paga"
-                  "enviada"
+                when 'paga'
+                  'enviada'
 
-                when "enviada"
-                  "entregue"
-
-                else
-                  nil
+                when 'enviada'
+                  'entregue'
 
                 end
 
   if novo_status.nil?
 
-    session[:erro] = "Não é possível alterar esta venda."
+    session[:erro] = 'Não é possível alterar esta venda.'
 
   else
 
     venda.update!(
-
       status: novo_status
-
     )
 
-    session[:sucesso] = "Status atualizado com sucesso."
+    session[:sucesso] = 'Status atualizado com sucesso.'
 
   end
 
   redirect "/vendas/#{venda.id}"
-
 end

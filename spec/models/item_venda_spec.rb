@@ -1,30 +1,29 @@
-require_relative "../spec_helper"
-require "bcrypt"
+require_relative '../spec_helper'
+require 'bcrypt'
 
 RSpec.describe ItemVenda do
-
   let(:comprador) do
     Usuario.create!(
-      nome: "Comprador",
-      email: "comprador@email.com",
-      senha_hash: BCrypt::Password.create("123456"),
-      cpf: "11111111111"
+      nome: 'Comprador',
+      email: 'comprador@email.com',
+      senha_hash: BCrypt::Password.create('123456'),
+      cpf: '11111111111'
     )
   end
 
   let(:vendedor) do
     Usuario.create!(
-      nome: "Vendedor",
-      email: "vendedor@email.com",
-      senha_hash: BCrypt::Password.create("123456"),
-      cpf: "22222222222"
+      nome: 'Vendedor',
+      email: 'vendedor@email.com',
+      senha_hash: BCrypt::Password.create('123456'),
+      cpf: '22222222222'
     )
   end
 
   let(:produto) do
     Produto.create!(
-      nome: "Mouse",
-      descricao: "Mouse Gamer",
+      nome: 'Mouse',
+      descricao: 'Mouse Gamer',
       preco: 100,
       estoque: 10,
       vendedor: vendedor
@@ -36,13 +35,12 @@ RSpec.describe ItemVenda do
       comprador: comprador,
       vendedor: vendedor,
       data: Date.today,
-      status: "pendente",
+      status: 'pendente',
       valor_total: 100
     )
   end
 
-  it "cria um item de venda válido" do
-
+  it 'cria um item de venda válido' do
     item = ItemVenda.new(
       venda: venda,
       produto: produto,
@@ -51,11 +49,9 @@ RSpec.describe ItemVenda do
     )
 
     expect(item.valid?).to be true
-
   end
 
-  it "exige quantidade" do
-
+  it 'exige quantidade' do
     item = ItemVenda.new(
       venda: venda,
       produto: produto,
@@ -63,11 +59,9 @@ RSpec.describe ItemVenda do
     )
 
     expect(item.valid?).to be false
-
   end
 
-  it "não aceita quantidade menor ou igual a zero" do
-
+  it 'não aceita quantidade menor ou igual a zero' do
     item = ItemVenda.new(
       venda: venda,
       produto: produto,
@@ -76,11 +70,9 @@ RSpec.describe ItemVenda do
     )
 
     expect(item.valid?).to be false
-
   end
 
-  it "exige preço unitário" do
-
+  it 'exige preço unitário' do
     item = ItemVenda.new(
       venda: venda,
       produto: produto,
@@ -88,11 +80,9 @@ RSpec.describe ItemVenda do
     )
 
     expect(item.valid?).to be false
-
   end
 
-  it "não aceita preço unitário negativo" do
-
+  it 'não aceita preço unitário negativo' do
     item = ItemVenda.new(
       venda: venda,
       produto: produto,
@@ -101,7 +91,5 @@ RSpec.describe ItemVenda do
     )
 
     expect(item.valid?).to be false
-
   end
-
 end
