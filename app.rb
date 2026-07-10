@@ -1,6 +1,7 @@
 require "sinatra"
 require "sinatra/reloader" if development?
 require "sinatra/activerecord"
+require "bcrypt"
 
 enable :sessions
 
@@ -31,7 +32,7 @@ post "/usuarios" do
   @usuario = Usuario.new(
     nome: params[:nome],
     email: params[:email],
-    senha_hash: params[:senha_hash],
+    senha_hash: BCrypt::Password.create(params[:senha]),
     cpf: params[:cpf],
     telefone: params[:telefone]
   )
@@ -71,7 +72,7 @@ post "/login" do
 
   usuario = Usuario.find_by(email: params[:email])
 
-  if usuario && usuario.senha_hash == params[:senha]
+  if usuario &&  BCrypt::Password.new(usuario.senha_hash) == params[:senha]
 
     session[:usuario_id] = usuario.id
 

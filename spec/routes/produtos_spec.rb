@@ -1,4 +1,5 @@
 require_relative "../spec_helper"
+require "bcrypt"
 
 RSpec.describe "Rotas de Produtos" do
 
@@ -6,7 +7,7 @@ RSpec.describe "Rotas de Produtos" do
     Usuario.create!(
       nome: "Gabriel",
       email: "gabriel@email.com",
-      senha_hash: "123456",
+      senha_hash: BCrypt::Password.create("123456"),
       cpf: "12345678900"
     )
   end

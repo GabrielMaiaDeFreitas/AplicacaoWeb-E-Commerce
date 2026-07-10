@@ -1,4 +1,5 @@
 require_relative "../spec_helper"
+require "bcrypt"
 
 RSpec.describe Usuario do
 
@@ -7,7 +8,7 @@ RSpec.describe Usuario do
     usuario = Usuario.new(
       nome: "Gabriel",
       email: "gabriel@email.com",
-      senha_hash: "123456",
+      senha_hash: BCrypt::Password.create("123456"),
       cpf: "12345678900"
     )
 
@@ -19,7 +20,7 @@ RSpec.describe Usuario do
 
     usuario = Usuario.new(
       email: "gabriel@email.com",
-      senha_hash: "123456",
+      senha_hash: BCrypt::Password.create("123456"),
       cpf: "12345678900"
     )
 

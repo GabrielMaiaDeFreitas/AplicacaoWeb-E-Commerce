@@ -28,7 +28,7 @@ RSpec.describe "Rotas de Usuários" do
 
             email: "gabriel@email.com",
 
-            senha_hash: "123456",
+            senha: "123456",
 
             cpf: "12345678900",
 
