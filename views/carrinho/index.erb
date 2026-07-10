@@ -2,7 +2,11 @@
 
 <% if @itens.empty? %>
 
-<p>Seu carrinho está vazio.</p>
+    <p>Seu carrinho está vazio.</p>
+
+    <p>
+        <a href="/catalogo">Ir para o Catálogo</a>
+    </p>
 
 <% else %>
 
@@ -23,25 +27,25 @@
 
     <tbody>
 
-    <% @itens.each do |item| %>
+        <% @itens.each do |item| %>
 
-        <tr>
+            <tr>
 
-            <td><%= item[:produto].nome %></td>
+                <td><%= item[:produto].nome %></td>
 
-            <td><%= item[:quantidade] %></td>
+                <td><%= item[:quantidade] %></td>
 
-            <td>
-                R$ <%= format("%.2f", item[:produto].preco) %>
-            </td>
+                <td>
+                    R$ <%= format("%.2f", item[:produto].preco) %>
+                </td>
 
-            <td>
-                R$ <%= format("%.2f", item[:subtotal]) %>
-            </td>
+                <td>
+                    R$ <%= format("%.2f", item[:subtotal]) %>
+                </td>
 
-        </tr>
+            </tr>
 
-    <% end %>
+        <% end %>
 
     </tbody>
 
@@ -59,11 +63,15 @@
 
 <p>
 
-    <button disabled>
+    <form action="/compras/finalizar" method="post">
+
+    <button type="submit">
 
         Finalizar Compra
 
     </button>
+
+</form>
 
 </p>
 

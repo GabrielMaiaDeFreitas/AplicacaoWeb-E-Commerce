@@ -16,15 +16,23 @@
 
 </p>
 
-<% if @produto.descricao && !@produto.descricao.empty? %>
-
 <p>
 
-    <strong>Descrição:</strong>
+    <strong>Vendedor:</strong>
 
-    <%= @produto.descricao %>
+    <%= @produto.vendedor.nome %>
 
 </p>
+
+<% if @produto.descricao && !@produto.descricao.empty? %>
+
+    <p>
+
+        <strong>Descrição:</strong>
+
+        <%= @produto.descricao %>
+
+    </p>
 
 <% end %>
 
@@ -35,6 +43,15 @@
     <a href="/catalogo">
 
         Voltar ao catálogo
+
+    </a>
+
+</p>
+
+<p>
+    <a href="/carrinho">
+
+        Ver Carrinho
 
     </a>
 

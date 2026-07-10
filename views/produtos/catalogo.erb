@@ -13,6 +13,7 @@
         <tr>
 
             <th>Produto</th>
+            <th>Vendedor</th>
             <th>Preço</th>
             <th>Estoque</th>
             <th></th>
@@ -28,6 +29,8 @@
         <tr>
 
             <td><%= produto.nome %></td>
+
+            <td><%= produto.vendedor.nome %></td>
 
             <td>R$ <%= format("%.2f", produto.preco) %></td>
 

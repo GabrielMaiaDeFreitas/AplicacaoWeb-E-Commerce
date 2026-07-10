@@ -329,6 +329,24 @@ post "/carrinho/adicionar/:id" do
 
   session[:carrinho] ||= {}
 
+  unless session[:carrinho].empty?
+
+  primeiro_produto = Produto.find_by(
+    id: session[:carrinho].keys.first
+  )
+
+  if primeiro_produto &&
+     primeiro_produto.vendedor_id != produto.vendedor_id
+
+    session[:erro] =
+      "O carrinho aceita apenas produtos do mesmo vendedor."
+
+    redirect "/catalogo/#{produto.id}"
+
+  end
+
+end
+
   id = produto.id.to_s
 
   if session[:carrinho][id]
@@ -373,5 +391,99 @@ get "/carrinho" do
   end
 
   erb :"carrinho/index"
+
+end
+
+post "/compras/finalizar" do
+
+  redirect "/login" unless logado?
+
+  if session[:carrinho].nil? || session[:carrinho].empty?
+
+    session[:erro] = "Seu carrinho está vazio."
+
+    redirect "/carrinho"
+
+  end
+
+  primeiro_produto = Produto.find_by(
+    id: session[:carrinho].keys.first
+  )
+
+  begin
+
+    ActiveRecord::Base.transaction do
+
+      venda = Venda.create!(
+
+        comprador: usuario_logado,
+
+        vendedor: primeiro_produto.vendedor,
+
+        data: Date.today,
+
+        status: "pendente",
+
+        valor_total: 0
+
+      )
+
+      total = 0
+
+      session[:carrinho].each do |produto_id, quantidade|
+
+        produto = Produto.find_by(id: produto_id)
+
+        raise "Produto não encontrado." if produto.nil?
+
+        if produto.estoque < quantidade
+
+          raise "Estoque insuficiente para o produto '#{produto.nome}'."
+
+        end
+
+        ItemVenda.create!(
+
+          venda: venda,
+
+          produto: produto,
+
+          quantidade: quantidade,
+
+          preco_unitario: produto.preco
+
+        )
+
+        produto.update!(
+
+          estoque: produto.estoque - quantidade
+
+        )
+
+        total += produto.preco * quantidade
+
+      end
+
+      venda.update!(
+
+        valor_total: total
+
+      )
+
+    end
+
+    session.delete(:carrinho)
+
+    session[:sucesso] = "Compra realizada com sucesso."
+
+    redirect "/catalogo"
+
+  rescue => e
+
+    session[:erro] = e.message
+
+    redirect "/carrinho"
+
+  end
 
 end
