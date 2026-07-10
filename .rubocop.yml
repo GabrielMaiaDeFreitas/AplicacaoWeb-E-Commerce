@@ -1,5 +1,6 @@
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
 
 Metrics/BlockLength:
   Enabled: false
@@ -12,3 +13,5 @@ Metrics/AbcSize:
 
 Style/Documentation:
   Enabled: false
+
+

@@ -25,7 +25,7 @@ end
 
 get '/usuarios/new' do
   @usuario = Usuario.new
-  erb :"usuarios/new"
+  erb :'usuarios/new'
 end
 
 post '/usuarios' do
@@ -42,7 +42,7 @@ post '/usuarios' do
 
     redirect '/'
   else
-    erb :"usuarios/new"
+    erb :'usuarios/new'
   end
 end
 
@@ -54,7 +54,7 @@ end
 
 get '/usuarios' do
   @usuarios = Usuario.all
-  erb :"usuarios/index"
+  erb :'usuarios/index'
 end
 
 
@@ -64,7 +64,7 @@ end
 # ==========================
 
 get '/login' do
-  erb :"autenticacao/login"
+  erb :'autenticacao/login'
 end
 
 post '/login' do
@@ -105,7 +105,7 @@ get '/perfil' do
 
   @usuario = usuario_logado
 
-  erb :"autenticacao/perfil"
+  erb :'autenticacao/perfil'
 end
 
 post '/perfil' do
@@ -127,7 +127,7 @@ post '/perfil' do
 
   else
 
-    erb :"autenticacao/perfil"
+    erb :'autenticacao/perfil'
 
   end
 end
@@ -143,7 +143,7 @@ get '/produtos/new' do
 
   @produto = Produto.new
 
-  erb :"produtos/new"
+  erb :'produtos/new'
 end
 
 post '/produtos' do
@@ -166,7 +166,7 @@ post '/produtos' do
 
   else
 
-    erb :"produtos/new"
+    erb :'produtos/new'
 
   end
 end
@@ -176,7 +176,7 @@ get '/produtos' do
 
   @produtos = Produto.where(vendedor_id: usuario_logado.id)
 
-  erb :"produtos/index"
+  erb :'produtos/index'
 end
 
 get '/produtos/:id/edit' do
@@ -193,7 +193,7 @@ get '/produtos/:id/edit' do
     redirect '/produtos'
   end
 
-  erb :"produtos/edit"
+  erb :'produtos/edit'
 end
 
 post '/produtos/:id' do
@@ -223,7 +223,7 @@ post '/produtos/:id' do
 
   else
 
-    erb :"produtos/edit"
+    erb :'produtos/edit'
 
   end
 end
@@ -263,7 +263,7 @@ get '/catalogo' do
 
   @produtos = Produto.all
 
-  erb :"produtos/catalogo"
+  erb :'produtos/catalogo'
 end
 
 get '/catalogo/:id' do
@@ -279,7 +279,7 @@ get '/catalogo/:id' do
 
   end
 
-  erb :"produtos/show"
+  erb :'produtos/show'
 end
 
 
@@ -361,7 +361,7 @@ get '/carrinho' do
     @total += subtotal
   end
 
-  erb :"carrinho/index"
+  erb :'carrinho/index'
 end
 
 post '/compras/finalizar' do
@@ -450,7 +450,7 @@ get '/compras' do
     comprador_id: usuario_logado.id
   ).order(data: :desc)
 
-  erb :"compras/index"
+  erb :'compras/index'
 end
 
 get '/compras/:id' do
@@ -469,7 +469,7 @@ get '/compras/:id' do
 
   end
 
-  erb :"compras/show"
+  erb :'compras/show'
 end
 
 post '/compras/:id/cancelar' do
@@ -533,7 +533,7 @@ get '/vendas' do
     vendedor_id: usuario_logado.id
   ).order(data: :desc)
 
-  erb :"vendas/index"
+  erb :'vendas/index'
 end
 
 get '/vendas/:id' do
@@ -552,7 +552,7 @@ get '/vendas/:id' do
 
   end
 
-  erb :"vendas/show"
+  erb :'vendas/show'
 end
 
 post '/vendas/:id/status' do
