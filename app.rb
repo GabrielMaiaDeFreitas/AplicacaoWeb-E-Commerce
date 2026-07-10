@@ -588,3 +588,22 @@ post "/compras/:id/cancelar" do
   redirect "/compras/#{compra.id}"
 
 end
+
+
+
+
+# ==========================
+# Vendas
+# ==========================
+
+get "/vendas" do
+
+  redirect "/login" unless logado?
+
+  @vendas = Venda.where(
+    vendedor_id: usuario_logado.id
+  ).order(data: :desc)
+
+  erb :"vendas/index"
+
+end

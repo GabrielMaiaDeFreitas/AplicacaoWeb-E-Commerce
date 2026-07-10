@@ -1,0 +1,61 @@
+<h2>Minhas Vendas</h2>
+
+<% if @vendas.empty? %>
+
+<p>Você ainda não recebeu nenhuma venda.</p>
+
+<% else %>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Data</th>
+<th>Comprador</th>
+<th>Status</th>
+<th>Valor Total</th>
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<% @vendas.each do |venda| %>
+
+<tr>
+
+<td><%= venda.data.strftime("%d/%m/%Y") %></td>
+
+<td><%= venda.comprador.nome %></td>
+
+<td><%= venda.status.capitalize %></td>
+
+<td>
+
+R$ <%= format("%.2f", venda.valor_total) %>
+
+</td>
+
+<td>
+
+<a href="/vendas/<%= venda.id %>">
+
+Ver detalhes
+
+</a>
+
+</td>
+
+</tr>
+
+<% end %>
+
+</tbody>
+
+</table>
+
+<% end %>
