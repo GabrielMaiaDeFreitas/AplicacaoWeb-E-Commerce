@@ -607,3 +607,77 @@ get "/vendas" do
   erb :"vendas/index"
 
 end
+
+get "/vendas/:id" do
+
+  redirect "/login" unless logado?
+
+  @venda = Venda.find_by(
+    id: params[:id],
+    vendedor_id: usuario_logado.id
+  )
+
+  if @venda.nil?
+
+    session[:erro] = "Venda não encontrada."
+
+    redirect "/vendas"
+
+  end
+
+  erb :"vendas/show"
+
+end
+
+post "/vendas/:id/status" do
+
+  redirect "/login" unless logado?
+
+  venda = Venda.find_by(
+    id: params[:id],
+    vendedor_id: usuario_logado.id
+  )
+
+  if venda.nil?
+
+    session[:erro] = "Venda não encontrada."
+
+    redirect "/vendas"
+
+  end
+
+  novo_status = case venda.status
+
+                when "pendente"
+                  "paga"
+
+                when "paga"
+                  "enviada"
+
+                when "enviada"
+                  "entregue"
+
+                else
+                  nil
+
+                end
+
+  if novo_status.nil?
+
+    session[:erro] = "Não é possível alterar esta venda."
+
+  else
+
+    venda.update!(
+
+      status: novo_status
+
+    )
+
+    session[:sucesso] = "Status atualizado com sucesso."
+
+  end
+
+  redirect "/vendas/#{venda.id}"
+
+end

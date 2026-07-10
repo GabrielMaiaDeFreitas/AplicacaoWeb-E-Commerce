@@ -1,0 +1,115 @@
+<h2>Detalhes da Venda</h2>
+
+<p>
+
+    <strong>Data:</strong>
+
+    <%= @venda.data.strftime("%d/%m/%Y") %>
+
+</p>
+
+<p>
+
+    <strong>Comprador:</strong>
+
+    <%= @venda.comprador.nome %>
+
+</p>
+
+<p>
+
+    <strong>Status:</strong>
+
+    <%= @venda.status.capitalize %>
+
+</p>
+
+<hr>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Produto</th>
+<th>Quantidade</th>
+<th>Preço Unitário</th>
+<th>Subtotal</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<% @venda.item_vendas.each do |item| %>
+
+<tr>
+
+<td><%= item.produto.nome %></td>
+
+<td><%= item.quantidade %></td>
+
+<td>
+
+R$ <%= format("%.2f", item.preco_unitario) %>
+
+</td>
+
+<td>
+
+R$ <%= format("%.2f", item.preco_unitario * item.quantidade) %>
+
+</td>
+
+</tr>
+
+<% end %>
+
+</tbody>
+
+</table>
+
+<br>
+
+<hr>
+
+    <br>
+
+        <h3>
+
+            <strong>Valor Total:</strong>
+
+            R$ <%= format("%.2f", @venda.valor_total) %>
+
+        </h3>
+
+    <br>
+
+<p>
+
+    <a href="/vendas">
+
+        Voltar para Minhas Vendas
+
+    </a>
+
+</p>
+
+<% unless ["entregue", "cancelada"].include?(@venda.status) %>
+
+<form
+    class="inline"
+    action="/vendas/<%= @venda.id %>/status"
+    method="post">
+
+    <button type="submit">
+
+        Avançar Status
+
+    </button>
+
+</form>
+
+<% end %>
