@@ -1,0 +1,110 @@
+<h2>Detalhes da Compra</h2>
+
+<p>
+
+    <strong>Data:</strong>
+
+    <%= @compra.data.strftime("%d/%m/%Y") %>
+
+</p>
+
+<p>
+
+    <strong>Vendedor:</strong>
+
+    <%= @compra.vendedor.nome %>
+
+</p>
+
+<p>
+
+    <strong>Status:</strong>
+
+    <%= @compra.status.capitalize %>
+
+</p>
+
+<hr>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Subtotal</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    <% @compra.item_vendas.each do |item| %>
+
+        <tr>
+
+            <td><%= item.produto.nome %></td>
+
+            <td><%= item.quantidade %></td>
+
+            <td>R$ <%= format("%.2f", item.preco_unitario) %></td>
+
+            <td>R$ <%= format("%.2f", item.preco_unitario * item.quantidade) %></td>
+
+        </tr>
+
+    <% end %>
+
+    </tbody>
+
+</table>
+
+<br>
+
+<hr>
+    
+    <br>    
+    
+    <h3>Resumo da Compra</h3>
+
+        <br>
+
+        <p>
+
+            <strong>Valor Total:</strong>
+
+            R$ <%= format("%.2f", @compra.valor_total) %>
+
+        </p>
+
+<hr>
+
+<br>
+
+<p>
+
+    <a href="/compras">
+
+        Voltar para Minhas Compras
+
+    </a>
+
+</p>
+
+<% if @compra.status == "pendente" %>
+
+<form class="inline"action="#" method="post">
+
+    <button type="submit">
+
+        Cancelar Compra
+
+    </button>
+
+</form>
+
+<% end %>

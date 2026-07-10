@@ -487,3 +487,43 @@ post "/compras/finalizar" do
   end
 
 end
+
+
+
+
+# ==========================
+# Compras
+# ==========================
+
+get "/compras" do
+
+  redirect "/login" unless logado?
+
+  @compras = Venda.where(
+    comprador_id: usuario_logado.id
+  ).order(data: :desc)
+
+  erb :"compras/index"
+
+end
+
+get "/compras/:id" do
+
+  redirect "/login" unless logado?
+
+  @compra = Venda.find_by(
+    id: params[:id],
+    comprador_id: usuario_logado.id
+  )
+
+  if @compra.nil?
+
+    session[:erro] = "Compra não encontrada."
+
+    redirect "/compras"
+
+  end
+
+  erb :"compras/show"
+
+end

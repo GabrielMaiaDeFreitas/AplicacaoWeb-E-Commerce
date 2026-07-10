@@ -1,0 +1,57 @@
+<h2>Minhas Compras</h2>
+
+<% if @compras.empty? %>
+
+    <p>Você ainda não realizou nenhuma compra.</p>
+
+<% else %>
+
+<table>
+
+    <thead>
+
+        <tr>
+
+            <th>Data</th>
+            <th>Vendedor</th>
+            <th>Status</th>
+            <th>Valor Total</th>
+            <th></th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    <% @compras.each do |compra| %>
+
+        <tr>
+
+            <td><%= compra.data.strftime("%d/%m/%Y") %></td>
+
+            <td><%= compra.vendedor.nome %></td>
+
+            <td><%= compra.status.capitalize %></td>
+
+            <td>R$ <%= format("%.2f", compra.valor_total) %></td>
+
+            <td>
+
+                <a href="/compras/<%= compra.id %>">
+
+                    Ver detalhes
+
+                </a>
+
+            </td>
+
+        </tr>
+
+    <% end %>
+
+    </tbody>
+
+</table>
+
+<% end %>
