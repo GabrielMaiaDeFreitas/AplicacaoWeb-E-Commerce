@@ -1,0 +1,51 @@
+<h2><%= @produto.nome %></h2>
+
+<p>
+
+    <strong>Preço:</strong>
+
+    R$ <%= format("%.2f", @produto.preco) %>
+
+</p>
+
+<p>
+
+    <strong>Estoque:</strong>
+
+    <%= @produto.estoque %>
+
+</p>
+
+<% if @produto.descricao && !@produto.descricao.empty? %>
+
+<p>
+
+    <strong>Descrição:</strong>
+
+    <%= @produto.descricao %>
+
+</p>
+
+<% end %>
+
+<hr>
+
+<p>
+
+    <a href="/catalogo">
+
+        Voltar ao catálogo
+
+    </a>
+
+</p>
+
+<p>
+
+    <button disabled>
+
+        Adicionar ao Carrinho
+
+    </button>
+
+</p>

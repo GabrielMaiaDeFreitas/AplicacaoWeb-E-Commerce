@@ -27,6 +27,13 @@ name="nome"
 value="<%= @produto.nome %>"
 ><br><br>
 
+<label>Descrição</label><br>
+<textarea
+    name="descricao"
+    rows="5"
+    cols="50"><%= @produto.descricao %></textarea>
+<br><br>
+
 <label>Preço</label><br>
 <input
 type="number"

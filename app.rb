@@ -162,6 +162,7 @@ post "/produtos" do
 
   @produto = Produto.new(
     nome: params[:nome],
+    descricao: params[:descricao],
     preco: params[:preco],
     estoque: params[:estoque]
   )
@@ -228,6 +229,7 @@ post "/produtos/:id" do
 
   if @produto.update(
       nome: params[:nome],
+      descricao: params[:descricao],
       preco: params[:preco],
       estoque: params[:estoque]
     )
@@ -283,5 +285,23 @@ get "/catalogo" do
   @produtos = Produto.all
 
   erb :"produtos/catalogo"
+
+end
+
+get "/catalogo/:id" do
+
+  redirect "/login" unless logado?
+
+  @produto = Produto.find_by(id: params[:id])
+
+  if @produto.nil?
+
+    session[:erro] = "Produto não encontrado."
+
+    redirect "/catalogo"
+
+  end
+
+  erb :"produtos/show"
 
 end
