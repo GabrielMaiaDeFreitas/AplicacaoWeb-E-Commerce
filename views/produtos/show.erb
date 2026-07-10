@@ -42,10 +42,14 @@
 
 <p>
 
-    <button disabled>
+    <form class="inline" action="/carrinho/adicionar/<%= @produto.id %>"method="post">
 
-        Adicionar ao Carrinho
+        <button type="submit">
 
-    </button>
+            Adicionar ao Carrinho
+
+        </button>
+
+    </form>
 
 </p>

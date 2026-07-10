@@ -109,6 +109,15 @@ table a:hover{
     color:#163172;
 }
 
+main a,
+main a:visited{
+    color:#1e40af;
+}
+
+main a:hover{
+    color:#163172;
+}
+
 form.inline{
     display:inline;
 }

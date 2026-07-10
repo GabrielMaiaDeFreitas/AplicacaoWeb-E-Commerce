@@ -305,3 +305,44 @@ get "/catalogo/:id" do
   erb :"produtos/show"
 
 end
+
+
+
+
+# ==========================
+# Carrinho
+# ==========================
+
+post "/carrinho/adicionar/:id" do
+
+  redirect "/login" unless logado?
+
+  produto = Produto.find_by(id: params[:id])
+
+  if produto.nil?
+
+    session[:erro] = "Produto não encontrado."
+
+    redirect "/catalogo"
+
+  end
+
+  session[:carrinho] ||= {}
+
+  id = produto.id.to_s
+
+  if session[:carrinho][id]
+
+    session[:carrinho][id] += 1
+
+  else
+
+    session[:carrinho][id] = 1
+
+  end
+
+  session[:sucesso] = "Produto adicionado ao carrinho."
+
+  redirect "/catalogo/#{produto.id}"
+
+end
