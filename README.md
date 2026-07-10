@@ -37,23 +37,27 @@ bundle install
 
 # Preparação do Banco de Dados
 
-Execute as migrations para criar o banco de dados:
+Os arquivos dos bancos de dados (`*.sqlite3`) **não foram incluídos no projeto**, conforme solicitado no enunciado do trabalho.
+
+Antes da primeira execução, crie o banco de desenvolvimento executando:
 
 ```bash
 bundle exec rake db:migrate
 ```
 
+Esse comando criará automaticamente o banco de dados **development.sqlite3** com todas as tabelas necessárias.
+
 ---
 
 # Executando a Aplicação
 
-Inicie o servidor com o comando:
+Após criar o banco de dados, inicie o servidor com:
 
 ```bash
 bundle exec ruby app.rb
 ```
 
-Após iniciar o servidor, acesse:
+Em seguida, acesse a aplicação pelo navegador:
 
 ```
 http://localhost:9292
@@ -63,13 +67,25 @@ http://localhost:9292
 
 # Executando os Testes
 
-Para executar toda a suíte de testes:
+O banco de testes (`test.sqlite3`) também não acompanha o projeto.
+
+Antes de executar a suíte de testes pela primeira vez, crie a estrutura do banco executando:
+
+```bash
+RACK_ENV=test bundle exec rake db:migrate
+```
+
+Em seguida, execute todos os testes com:
 
 ```bash
 bundle exec rspec
 ```
 
-Todos os testes (Modelos, Rotas e Interface) podem ser executados utilizando apenas este comando.
+A suíte contempla testes de:
+
+- Modelos
+- Rotas
+- Interface (Fluxo Completo)
 
 ---
 
@@ -77,7 +93,7 @@ Todos os testes (Modelos, Rotas e Interface) podem ser executados utilizando ape
 
 ## Usuário
 
-- Cadastro
+- Cadastro de usuários
 - Login
 - Logout
 - Edição do próprio perfil
@@ -94,7 +110,7 @@ Todos os testes (Modelos, Rotas e Interface) podem ser executados utilizando ape
 ## Comprador
 
 - Catálogo de produtos
-- Visualização dos detalhes do produto
+- Visualização dos detalhes dos produtos
 - Adição de produtos ao carrinho
 - Finalização de compras
 - Histórico de compras
@@ -113,7 +129,10 @@ As senhas dos usuários são armazenadas utilizando **BCrypt**, evitando o armaz
 ```
 app/
 db/
+├── migrate/
+
 helpers/
+images/
 models/
 public/
 spec/
@@ -122,6 +141,7 @@ views/
 app.rb
 config.ru
 Gemfile
+Gemfile.lock
 README.md
 ```
 
@@ -145,6 +165,8 @@ README.md
 
 ![Tela de Catálogo de Produtos](images/catalogo-produtos.png)
 
+---
+
 ## Carrinho de Compras
 
 ![Carrinho de Compras](images/carrinho.png)
@@ -153,7 +175,7 @@ README.md
 
 ## Finalizar Compra
 
-![Finalizar compras](images/finalizar-compras.png)
+![Finalizar Compra](images/finalizar-compras.png)
 
 ---
 
@@ -173,6 +195,7 @@ README.md
 
 - O projeto utiliza ActiveRecord para persistência dos dados.
 - O banco de dados utilizado é SQLite.
-- As validações foram implementadas conforme especificado no trabalho.
+- As validações foram implementadas conforme especificado no enunciado.
 - A finalização da compra utiliza transações para garantir a integridade dos dados.
-- A suíte de testes cobre as camadas de Modelo, Rotas e Interface.
+- As senhas são armazenadas utilizando BCrypt.
+- Os bancos de dados (`development.sqlite3` e `test.sqlite3`) não acompanham o projeto e são criados automaticamente durante a execução da aplicação e da suíte de testes.
